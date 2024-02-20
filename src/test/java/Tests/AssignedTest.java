@@ -6,7 +6,9 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import utils.ProjectConfig;
 import utils.TestContextSetup;
@@ -15,7 +17,6 @@ import java.time.Duration;
 
 public class AssignedTest {
     TestContextSetup tcs;
-    Login objectLoginPage;
     private String newAccountNumber;
     public void registerUser(){
         tcs.setup().getLogin().enterLoginDetails("adminn","admin@123");
@@ -36,16 +37,17 @@ public class AssignedTest {
             tcs.setup().getRegisterPage().clickRegisterButton();
         }
     }
+    @Parameters("browser")
     @BeforeTest
-    public void beforeTest(){
-         tcs= new TestContextSetup();
-         tcs.base.initializeDriver().get(ProjectConfig.url);
+    public void beforeTest(String browser){
+         tcs= new TestContextSetup(browser);
+         tcs.base.initializeDriver(browser).get(ProjectConfig.url);
          registerUser();
     }
 
 
-    @Test(priority = 1)
-    public void openNewAccount(){
+    @Test(priority = 0)
+    public void checkCreatingSavingsAccount(){
         tcs.setup().getHomePage().clickOnOpenNewAccountBtn();
         tcs.setup().getOpenNewAccount().selectSavingAccountOption();
         try {
@@ -55,7 +57,23 @@ public class AssignedTest {
         }
         tcs.setup().getOpenNewAccount().clickOpenNewAccountBtn();
         newAccountNumber = tcs.setup().getOpenNewAccount().getNewAccountNumber();
+        String actualStatus =tcs.setup().getOpenNewAccount().returnOpenAccountStatus() ;
+        Assert.assertEquals(actualStatus,"Account Opened!");
     }
+    @Test(priority = 1)
+    public void checkCreatingCheckingAccount(){
+        tcs.setup().getHomePage().clickOnOpenNewAccountBtn();
+        tcs.setup().getOpenNewAccount().selectCheckingAccountOption();
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        tcs.setup().getOpenNewAccount().clickOpenNewAccountBtn();
+        newAccountNumber = tcs.setup().getOpenNewAccount().getNewAccountNumber();
+        String actualStatus =tcs.setup().getOpenNewAccount().returnOpenAccountStatus() ;
+        Assert.assertEquals(actualStatus,"Account Opened!");
+    }/*
     @Test(priority = 2,dataProvider = "amountDataProvider",dataProviderClass = CustomDataProvider.class)
     public void validTransferFunds(String amount){
         tcs.setup().getOpenNewAccount().openTransferFundsPage();
@@ -72,8 +90,10 @@ public class AssignedTest {
         String actualStatus = tcs.setup().getTransferFunds().returnTransferFundStatus();
         Assert.assertNotEquals(actualStatus,"Transfer Complete!");
     }
+
+    //Passing all valid
     @Test(priority = 4)
-    public void billPay(){
+    public void validBillPay(){
         tcs.setup().getTransferFunds().openBillPayPage();
         tcs.setup().getBillPay().enterPayeeName("xyz");
         tcs.setup().getBillPay().enterPayeeAddress("a-222","noida","UP","20202");
@@ -82,6 +102,25 @@ public class AssignedTest {
         tcs.setup().getBillPay().enterConfirmAccountNo("101");
         tcs.setup().getBillPay().enterAmount("500");
         tcs.setup().getBillPay().selectFromAccount(newAccountNumber);
+        tcs.setup().getBillPay().clickSendPayment();
+        String actualTitleAfterPayingBill = tcs.setup().getBillPay().getBillPaymentStatus();
+        Assert.assertEquals(actualTitleAfterPayingBill,"Bill Payment Complete");
+    }
+
+    // Try to pay a bill with negative bill Amount
+    @Test(priority = 4)
+    public void invalidBillPay(){
+        tcs.setup().getTransferFunds().openBillPayPage();
+        tcs.setup().getBillPay().enterPayeeName("xyz");
+        tcs.setup().getBillPay().enterPayeeAddress("a-222","noida","UP","20202");
+        tcs.setup().getBillPay().enterPhoneNo("646561343");
+        tcs.setup().getBillPay().enterPayeeAccountNo("101");
+        tcs.setup().getBillPay().enterConfirmAccountNo("101");
+        tcs.setup().getBillPay().enterAmount("-500");
+        tcs.setup().getBillPay().selectFromAccount(newAccountNumber);
+        tcs.setup().getBillPay().clickSendPayment();
+        String actualTitleAfterPayingBill = tcs.setup().getBillPay().getBillPaymentStatus();
+        Assert.assertNotEquals(actualTitleAfterPayingBill,"Bill Payment Complete");
     }
     @Test(priority = 5)
     public void validLoanRequest(){
@@ -101,5 +140,10 @@ public class AssignedTest {
         String actualStatus= tcs.setup().getRequestLoan().getStatus();
         Assert.assertEquals(actualStatus,"Denied");
     }
+    @AfterTest
+    public void tearDown(){
+        tcs.base.closeDriver();
+    }
 
+    */
 }

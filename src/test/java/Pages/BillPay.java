@@ -1,5 +1,6 @@
 package Pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -37,6 +38,8 @@ public class BillPay {
     WebElement sendPaymentBtn;
     @FindBy(xpath = "//a[text()='Request Loan']")
     WebElement requestLoanBtn;
+    @FindBy(css="div[ng-show='showResult'] h1")
+    WebElement titleAfterBillPay;
     public BillPay(WebDriver driver){
         this.driver=driver;
         PageFactory.initElements(driver,this);
@@ -76,6 +79,10 @@ public class BillPay {
         wait.until(ExpectedConditions.elementToBeClickable(requestLoanBtn));
         requestLoanBtn.click();
     }
-
-
+    public String getBillPaymentStatus(){
+        wait = new WebDriverWait(driver, Duration.ofSeconds(7));
+        System.out.println(titleAfterBillPay.getText());
+        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.cssSelector("div[ng-show='showResult'] h1"),"Bill Payment Complete"));
+        return titleAfterBillPay.getText();
+    }
 }

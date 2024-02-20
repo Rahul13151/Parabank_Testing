@@ -1,5 +1,6 @@
 package Pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -22,6 +23,8 @@ public class OpenNewAccount {
     WebElement newAccountNumber;
     @FindBy(xpath = "//a[text()='Transfer Funds']")
     WebElement fundTransferButton;
+    @FindBy(css = ".title")
+    WebElement accountResponseTitle;
     public OpenNewAccount(WebDriver driver){
         this.driver=driver;
         PageFactory.initElements(driver,this);
@@ -29,6 +32,10 @@ public class OpenNewAccount {
     public void selectSavingAccountOption(){
         Select typeDropdownSelector = new Select(accountTypeDropdown);
         typeDropdownSelector.selectByValue("1");
+    }
+    public void selectCheckingAccountOption(){
+        Select typeDropdownSelector = new Select(accountTypeDropdown);
+        typeDropdownSelector.selectByValue("0");
     }
 
     public void clickOpenNewAccountBtn(){
@@ -44,5 +51,10 @@ public class OpenNewAccount {
         wait.until(ExpectedConditions.elementToBeClickable(fundTransferButton));
         fundTransferButton.click();
 
+    }
+    public String returnOpenAccountStatus(){
+        wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.cssSelector(".title"),"Account Opened!"));
+        return accountResponseTitle.getText();
     }
 }
