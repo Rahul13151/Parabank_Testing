@@ -21,7 +21,8 @@ public class RequestLoan {
     WebElement fromAccountDropdown;
     @FindBy(css = "input[value='Apply Now']")
     WebElement applyNowBtn;
-
+    @FindBy(id = "loanStatus")
+    WebElement statusLocator;
     public RequestLoan(WebDriver driver){
         this.driver=driver;
         PageFactory.initElements(driver,this);
@@ -37,5 +38,8 @@ public class RequestLoan {
         wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         wait.until(ExpectedConditions.elementToBeClickable(applyNowBtn));
         applyNowBtn.click();
+    }
+    public String getStatus(){
+        return statusLocator.getText();
     }
 }

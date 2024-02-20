@@ -9,20 +9,19 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
-public class HomePage {
+
+public class HomePage  {
     WebDriver driver;
     WebDriverWait wait;
-    @FindBy(xpath = "//a[text()='Register']")
-    WebElement registerButton;
-
+    @FindBy(xpath = "//a[text()='Open New Account']")
+    WebElement openNewAccountButton;
     public HomePage(WebDriver driver){
         this.driver=driver;
         PageFactory.initElements(driver,this);
     }
-    public void clickOnRegisterButton(){
+    public void clickOnOpenNewAccountBtn(){
         wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        wait.until(ExpectedConditions.elementToBeClickable(registerButton));
-        registerButton.click();
+        wait.until(ExpectedConditions.elementToBeClickable(openNewAccountButton));
+        openNewAccountButton.click();
     }
-
 }

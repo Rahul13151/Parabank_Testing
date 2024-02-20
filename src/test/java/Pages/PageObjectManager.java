@@ -8,7 +8,6 @@ public class PageObjectManager {
     public WebDriver driver;
     Login login;
     BillPay billPay;
-    DashboardPage dashboardPage;
     HomePage homePage;
     OpenNewAccount openNewAccount;
     RegisterPage registerPage;
@@ -19,7 +18,6 @@ public class PageObjectManager {
         this.driver = driver;
         login = new Login(driver);
         billPay = new BillPay(driver);
-        dashboardPage = new DashboardPage(driver);
         homePage = new HomePage(driver);
         openNewAccount = new OpenNewAccount(driver);
         registerPage = new RegisterPage(driver);
@@ -30,10 +28,6 @@ public class PageObjectManager {
 
     public BillPay getBillPay() {
         return billPay;
-    }
-
-    public DashboardPage getDashboardPage() {
-        return dashboardPage;
     }
 
     public HomePage getHomePage() {

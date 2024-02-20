@@ -20,6 +20,8 @@ public class Login {
     WebElement passwordInputBox;
     @FindBy(css = "input[value='Log In']")
     WebElement logInButton;
+    @FindBy(xpath = "//a[text()='Register']")
+    WebElement registerButton;
     public Login(WebDriver driver){
         this.driver=driver;
         PageFactory.initElements(driver,this);
@@ -32,6 +34,11 @@ public class Login {
         wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         wait.until(ExpectedConditions.elementToBeClickable(logInButton));
         logInButton.click();
+    }
+    public void clickOnRegisterButton(){
+        wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        wait.until(ExpectedConditions.elementToBeClickable(registerButton));
+        registerButton.click();
     }
     public boolean isErrorPageShown(){
         if(driver.getTitle().contains("Error"))

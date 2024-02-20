@@ -3,6 +3,7 @@ package Tests;
 import Pages.Login;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import utils.ProjectConfig;
@@ -24,7 +25,7 @@ public class AssignedTest {
         tcs.setup().getLogin().enterLoginDetails("admin","admin@123");
         tcs.setup().getLogin().clickLogInButton();
         if(tcs.setup().getLogin().isErrorPageShown()) {
-            tcs.setup().getHomePage().clickOnRegisterButton();
+            tcs.setup().getLogin().clickOnRegisterButton();
             tcs.setup().getRegisterPage().enterFirstName("Vijay");
             tcs.setup().getRegisterPage().enterLastName("last");
             tcs.setup().getRegisterPage().enterAddress("A-3333");
@@ -41,7 +42,7 @@ public class AssignedTest {
     }
     @Test(priority = 1)
     public void openNewAccount(){
-        tcs.setup().getDashboardPage().clickOnOpenNewAccountBtn();
+        tcs.setup().getHomePage().clickOnOpenNewAccountBtn();
         tcs.setup().getOpenNewAccount().selectSavingAccountOption();
         try {
             Thread.sleep(1000);
@@ -72,6 +73,8 @@ public class AssignedTest {
         tcs.setup().getBillPay().openRequestLoanPage();
         tcs.setup().getRequestLoan().enterLoanDetails("2000","200",newAccountNumber);
         tcs.setup().getRequestLoan().clickApplyNow();
+        String actualStatus= tcs.setup().getRequestLoan().getStatus();
+        Assert.assertEquals(actualStatus,"Approved");
     }
 
     //Selecting negative loan Amount
@@ -80,6 +83,8 @@ public class AssignedTest {
         tcs.setup().getBillPay().openRequestLoanPage();
         tcs.setup().getRequestLoan().enterLoanDetails("-2000","00",newAccountNumber);
         tcs.setup().getRequestLoan().clickApplyNow();
+        String actualStatus= tcs.setup().getRequestLoan().getStatus();
+        Assert.assertEquals(actualStatus,"Denied");
     }
 
 }
