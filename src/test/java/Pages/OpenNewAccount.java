@@ -27,6 +27,8 @@ public class OpenNewAccount {
     WebElement accountResponseTitle;
     @FindBy(xpath = "//select[@id='fromAccountId'] /option[1]")
     WebElement firstExsistingAccountOption;
+    @FindBy(id="fromAccountId")
+    WebElement fromAccountDropdown;
     public OpenNewAccount(WebDriver driver){
         this.driver=driver;
         PageFactory.initElements(driver,this);
@@ -41,7 +43,12 @@ public class OpenNewAccount {
     }
     public void selectExsistingAccount(){
         wait = new WebDriverWait(driver, Duration.ofSeconds(7));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//select[@id='fromAccountId'] /option[1]")));
+        wait.until(ExpectedConditions.visibilityOf(firstExsistingAccountOption));
+        wait.until(ExpectedConditions.elementToBeClickable(fromAccountDropdown));
+        //important
+        //Mandatory to apply Thread.sleep() as text inside dropdown is taking sometime to appear and Explicit wait(wait.until) is unable to handle this
+        try {Thread.sleep(1000);} catch (InterruptedException e) {throw new RuntimeException(e);}
+
     }
 
 

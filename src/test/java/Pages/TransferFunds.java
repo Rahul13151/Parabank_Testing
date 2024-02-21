@@ -35,12 +35,9 @@ public class TransferFunds {
         PageFactory.initElements(driver,this);
     }
     public void transferFundsFromAccount1to2(String amount){
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            System.out.println("NO sotoooooooooooooop");
-            throw new RuntimeException(e);
-        }
+        //Important
+        //Mandatory to apply Thread.sleep() as text inside dropdown is taking sometime to appear and Explicit wait(wait.until) is unable to handle this
+        try {Thread.sleep(2000);} catch (InterruptedException e) {throw new RuntimeException(e);}
         amountInputBox.sendKeys(amount);
 
         Select fromDropdownSelector = new Select(fromAccountDropdown);
@@ -57,11 +54,9 @@ public class TransferFunds {
         billPayButton.click();
     }
     public void transferFundsToSameAccount(String amount){
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        //Important
+        //Mandatory to apply Thread.sleep() as text inside dropdown is taking sometime to appear and Explicit wait(wait.until) is unable to handle this
+        try {Thread.sleep(2000);} catch (InterruptedException e) {throw new RuntimeException(e);}
         amountInputBox.sendKeys(amount);
 
         Select fromDropdownSelector = new Select(fromAccountDropdown);

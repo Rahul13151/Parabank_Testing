@@ -13,10 +13,11 @@ import utils.TestContextSetup;
 import java.time.Duration;
 
 public class AssignedTest {
+    //tcs - An object of Test Context Setup Class
     TestContextSetup tcs;
     private String newAccountNumber;
     public void registerUser(){
-        tcs.setup().getLogin().enterLoginDetails("adminn","admin@123");
+        tcs.setup().getLogin().enterLoginDetails("admin","admin@123");
         tcs.setup().getLogin().clickLogInButton();
         if(tcs.setup().getLogin().isErrorPageShown()) {
             tcs.setup().getLogin().clickOnRegisterButton();
@@ -28,7 +29,7 @@ public class AssignedTest {
             tcs.setup().getRegisterPage().enterZipCode("201301");
             tcs.setup().getRegisterPage().enterPhoneNo("8998484");
             tcs.setup().getRegisterPage().enterSSN("48940");
-            tcs.setup().getRegisterPage().enterUserName("adminn");
+            tcs.setup().getRegisterPage().enterUserName("admin");
             tcs.setup().getRegisterPage().enterPassword("admin@123");
             tcs.setup().getRegisterPage().enterConfirmPassword("admin@123");
             tcs.setup().getRegisterPage().clickRegisterButton();
@@ -48,11 +49,7 @@ public class AssignedTest {
         tcs.setup().getHomePage().clickOnOpenNewAccountBtn();
         tcs.setup().getOpenNewAccount().selectSavingAccountOption();
         tcs.setup().getOpenNewAccount().selectExsistingAccount();
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+
         tcs.setup().getOpenNewAccount().clickOpenNewAccountBtn();
         newAccountNumber = tcs.setup().getOpenNewAccount().getNewAccountNumber();
         String actualStatus =tcs.setup().getOpenNewAccount().returnOpenAccountStatus() ;
@@ -62,11 +59,7 @@ public class AssignedTest {
     public void checkCreatingCheckingAccount(){
         tcs.setup().getHomePage().clickOnOpenNewAccountBtn();
         tcs.setup().getOpenNewAccount().selectCheckingAccountOption();
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        tcs.setup().getOpenNewAccount().selectExsistingAccount();
         tcs.setup().getOpenNewAccount().clickOpenNewAccountBtn();
         newAccountNumber = tcs.setup().getOpenNewAccount().getNewAccountNumber();
         String actualStatus =tcs.setup().getOpenNewAccount().returnOpenAccountStatus() ;
