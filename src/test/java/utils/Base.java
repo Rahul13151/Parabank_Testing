@@ -12,7 +12,7 @@ import java.time.Duration;
 import static utils.ProjectConfig.browser;
 
 public class Base {
-    static WebDriver driver;
+    WebDriver driver;
     public WebDriver initializeDriver(String browser) {
         if (driver == null) {
             if (browser.equalsIgnoreCase("Chrome")) {

@@ -6,10 +6,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 import utils.ProjectConfig;
 import utils.TestContextSetup;
 
@@ -50,6 +47,7 @@ public class AssignedTest {
     public void checkCreatingSavingsAccount(){
         tcs.setup().getHomePage().clickOnOpenNewAccountBtn();
         tcs.setup().getOpenNewAccount().selectSavingAccountOption();
+        tcs.setup().getOpenNewAccount().selectExsistingAccount();
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
@@ -73,8 +71,8 @@ public class AssignedTest {
         newAccountNumber = tcs.setup().getOpenNewAccount().getNewAccountNumber();
         String actualStatus =tcs.setup().getOpenNewAccount().returnOpenAccountStatus() ;
         Assert.assertEquals(actualStatus,"Account Opened!");
-    }/*
-    @Test(priority = 2,dataProvider = "amountDataProvider",dataProviderClass = CustomDataProvider.class)
+    }
+   @Test(priority = 2,dataProvider = "amountDataProvider",dataProviderClass = CustomDataProvider.class)
     public void validTransferFunds(String amount){
         tcs.setup().getOpenNewAccount().openTransferFundsPage();
         tcs.setup().getTransferFunds().transferFundsFromAccount1to2(amount);
@@ -145,5 +143,5 @@ public class AssignedTest {
         tcs.base.closeDriver();
     }
 
-    */
+
 }

@@ -25,6 +25,8 @@ public class OpenNewAccount {
     WebElement fundTransferButton;
     @FindBy(css = ".title")
     WebElement accountResponseTitle;
+    @FindBy(xpath = "//select[@id='fromAccountId'] /option[1]")
+    WebElement firstExsistingAccountOption;
     public OpenNewAccount(WebDriver driver){
         this.driver=driver;
         PageFactory.initElements(driver,this);
@@ -37,6 +39,11 @@ public class OpenNewAccount {
         Select typeDropdownSelector = new Select(accountTypeDropdown);
         typeDropdownSelector.selectByValue("0");
     }
+    public void selectExsistingAccount(){
+        wait = new WebDriverWait(driver, Duration.ofSeconds(7));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//select[@id='fromAccountId'] /option[1]")));
+    }
+
 
     public void clickOpenNewAccountBtn(){
         wait = new WebDriverWait(driver, Duration.ofSeconds(5));
